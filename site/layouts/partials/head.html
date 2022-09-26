@@ -40,5 +40,38 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 	
   {{ end }}
+  <script>
+	//prehiding snippet for Adobe Target with asynchronous tags deployment
+	;(function(win, doc, style, timeout) {
+	var STYLE_ID = 'at-body-style';
+	function getParent() {
+	   return doc.getElementsByTagName('head')[0];
+	}
+	function addStyle(parent, id, def) {
+	   if (!parent) {
+	   return;
+	   }
+	   var style = doc.createElement('style');
+	   style.id = id;
+	   style.innerHTML = def;
+	   parent.appendChild(style);
+	}
+	function removeStyle(parent, id) {
+	   if (!parent) {
+	   return;
+	   }
+	   var style = doc.getElementById(id);
+	   if (!style) {
+	   return;
+	   }
+	   parent.removeChild(style);
+	}
+	addStyle(getParent(), STYLE_ID, style);
+	setTimeout(function() {
+	   removeStyle(getParent(), STYLE_ID);
+	}, timeout);
+	}(window, document, "body {opacity: 0 !important}", 3000));
+ </script>
+ 
   <script src="https://assets.adobedtm.com/6268dc4b6b26/33e8c411b1f5/launch-3d1ed1ce0a14-development.min.js" async></script>
 </head>
